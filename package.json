@@ -1,6 +1,6 @@
 {
-  "name": "basic-todo",
-  "version": "1.0.0",
+  "name": "y",
+  "version": "y",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -40,5 +40,9 @@
     "prettier": "^2.0.2"
   },
   "keywords": [],
-  "description": ""
+  "description": "y",
+  "main": "y",
+  "repository": "y",
+  "author": "y",
+  "license": "y"
 }
