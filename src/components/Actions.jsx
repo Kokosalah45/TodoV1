@@ -1,6 +1,7 @@
 import React from "react";
-
-const Actions = ({ markAllCompleted, clearCompleted }) => {
+import { useTodo } from "../contexts/TodoContextProvider";
+const Actions = () => {
+  const { markAllCompleted, clearCompleted } = useTodo()
   return (
     <div class="actions">
       <h4 className="footer-header">Actions</h4>

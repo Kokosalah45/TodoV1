@@ -1,13 +1,8 @@
 import React, { useState } from "react";
+import { useTodo } from "../contexts/TodoContextProvider";
 import classNames from "classnames";
-const ToDoItem = ({
-  todoData,
-  handleCompleted,
-  handleActive,
-  handleColorChange,
-  handleDelete,
-  colors
-}) => {
+const ToDoItem = ({todoData}) => {
+  const {setCompletedStatus , setActiveStatus , deleteToDo , setColor , colors } = useTodo()
   const { isActive, isCompleted, id, task, color: clr } = todoData;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -20,7 +15,7 @@ const ToDoItem = ({
   };
   return (
     <div
-      onClick={(e) => handleActive(e, id)}
+      onClick={(e) => setActiveStatus(e, id)}
       onPointerEnter={handleMouseOver}
       onPointerLeave={handleMouseOver}
       className={classNames(
@@ -33,7 +28,7 @@ const ToDoItem = ({
         className="checkbox-completed"
         type="checkbox"
         checked={isCompleted}
-        onChange={() => handleCompleted(id)}
+        onChange={() => setCompletedStatus(id)}
       />
 
       <p className="task">{task}</p>
@@ -45,14 +40,14 @@ const ToDoItem = ({
           fontSize: "1.1rem"
         }}
         value={clr}
-        onChange={(e) => handleColorChange(e, id)}
+        onChange={(e) => setColor(e, id)}
       >
         <option value="unset">color ?</option>
         {colors.map((color) => (
           <option value={color}>{color}</option>
         ))}
       </select>
-      <button className="deleteTodo" onClick={(e) => handleDelete(e, id)}>
+      <button className="deleteTodo" onClick={(e) => deleteToDo(e, id)}>
         delete
       </button>
     </div>

@@ -1,6 +1,7 @@
 import React from "react";
-
-const TasksCounter = ({ tasksLeft }) => {
+import { useTodo } from "../contexts/TodoContextProvider";
+const TasksCounter = () => {
+  const { tasksLeft } = useTodo()
   return (
     <div className="tasks-counter">
       <h4 className="footer-header">Remaining Todos</h4>

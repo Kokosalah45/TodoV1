@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
-const Input = ({ onSubmit }) => {
+ import { useTodo } from "../contexts/TodoContextProvider";
+const Input = () => {
+   const {addTodo} = useTodo()
   const [formData, setFormData] = useState({
     todoInput: ""
   });
@@ -12,7 +13,7 @@ const Input = ({ onSubmit }) => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData);
+    addTodo(formData);
     setFormData({ todoInput: "" });
   };
   return (
