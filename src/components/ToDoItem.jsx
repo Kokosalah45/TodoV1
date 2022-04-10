@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTodo } from "../contexts/TodoContextProvider";
+import { deleteTodo , setColor , setCompletedStatus , setActiveStatus} from '../features/actions/todo'
 import classNames from "classnames";
 const ToDoItem = ({todoData}) => {
-  const {setCompletedStatus , setActiveStatus , deleteToDo , setColor , colors } = useTodo()
+  const {colors , todosDispatch } = useTodo()
   const { isActive, isCompleted, id, task, color: clr } = todoData;
   const [isHovered, setIsHovered] = useState(false);
 
@@ -15,7 +16,7 @@ const ToDoItem = ({todoData}) => {
   };
   return (
     <div
-      onClick={(e) => setActiveStatus(e, id)}
+      onClick={ e => todosDispatch(setActiveStatus({ event : e, todoId : id , data : null}))}
       onPointerEnter={handleMouseOver}
       onPointerLeave={handleMouseOver}
       className={classNames(
@@ -28,7 +29,7 @@ const ToDoItem = ({todoData}) => {
         className="checkbox-completed"
         type="checkbox"
         checked={isCompleted}
-        onChange={() => setCompletedStatus(id)}
+        onChange={ e => todosDispatch(setCompletedStatus({ event : e, todoId : id , data : null}))}
       />
 
       <p className="task">{task}</p>
@@ -40,14 +41,15 @@ const ToDoItem = ({todoData}) => {
           fontSize: "1.1rem"
         }}
         value={clr}
-        onChange={(e) => setColor(e, id)}
+        onChange={ e => todosDispatch(setColor({ event : e, todoId : id , data : null}))}
+
       >
         <option value="unset">color ?</option>
         {colors.map((color) => (
           <option value={color}>{color}</option>
         ))}
       </select>
-      <button className="deleteTodo" onClick={(e) => deleteToDo(e, id)}>
+      <button className="deleteTodo" onClick={ e => todosDispatch(deleteTodo({ event : e, todoId : id , data : null}))}>
         delete
       </button>
     </div>

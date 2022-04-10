@@ -1,10 +1,13 @@
-import React, { useContext, createContext , useMemo , useState , useEffect } from 'react'
+import React, { useContext, createContext , useMemo , useState , useReducer , useEffect } from 'react'
 import shortid from 'shortid'
+import todosReducer from '../features/reducers/todos'
+import * as todosActionTypes from '../features/constants/todo'
+
 const todoContext = createContext(null)
 // compound component pattern is used to eliminate unnecessary rerenders
 // i can use React.memo() to do the same functionality
 const TodoContextProvider = ({ children }) => {
-    const [todos, setTodos] = useState([])
+    const [todos , todosDispatch] = useReducer(todosReducer , []);
     const [colors, setColors] = useState([
         'red',
         'orange',
@@ -12,72 +15,19 @@ const TodoContextProvider = ({ children }) => {
         'green',
         'purple',
     ])
-    const calculateTasksLeft = (todos) => {
-        return todos.filter((todo) => !todo.isCompleted).length
-    }
-    const tasksLeft = useMemo(() => calculateTasksLeft(todos), [todos])
     const [filters, setFilters] = useState({
         status: 'all',
         colors: [],
     })
-    useEffect(() => console.log(filters))
-    const isTaskExist = (task) => {
-        return todos.filter((todo) => todo.task === task).length === 0
-    }
+   
 
-    const getTodo = (id) => {
-        return [
-            todos.filter((todo) => todo.id === id),
-            todos.findIndex((todo) => todo.id === id),
-        ]
+    const calculateTasksLeft = (todos) => {
+        return todos.filter((todo) => !todo.isCompleted).length
     }
-    const addTodo = (formData) => {
-        if (formData.todoInput !== '' && isTaskExist(formData.todoInput)) {
-            setTodos([
-                ...todos,
-                {
-                    task: formData.todoInput,
-                    isCompleted: false,
-                    isActive: false,
-                    color: '',
-                    id: shortid.generate(),
-                },
-            ])
-        }
-    }
-    const deleteToDo = (e, toDoItemID) => {
-        e.stopPropagation()
-        const [[todo], index] = getTodo(toDoItemID)
-        const todosCopy = [...todos]
-        todosCopy.splice(index, 1)
-        setTodos(todosCopy)
-    }
+    const tasksLeft = useMemo(() => calculateTasksLeft(todos), [todos])
+    
 
-    const setColor = (e, toDoItemID) => {
-        const colorVal = e.target.value
-        const [[todo], index] = getTodo(toDoItemID)
-        const todoCopy = { ...todo, color: colorVal }
-        const todosCopy = [...todos]
-        todosCopy.splice(index, 1, todoCopy)
-        setTodos(todosCopy)
-    }
-    const setCompletedStatus = (toDoItemID) => {
-        const [[todo], index] = getTodo(toDoItemID)
-        const todoCopy = { ...todo, isCompleted: !todo.isCompleted }
-        const todosCopy = [...todos]
-        todosCopy.splice(index, 1, todoCopy)
-        setTodos(todosCopy)
-    }
-    const setActiveStatus = (e, toDoItemID) => {
-        if (e.target.nodeName === 'SELECT') {
-            return
-        }
-        const [[todo], index] = getTodo(toDoItemID)
-        const todoCopy = { ...todo, isActive: !todo.isActive }
-        const todosCopy = [...todos]
-        todosCopy.splice(index, 1, todoCopy)
-        setTodos(todosCopy)
-    }
+
     const setTodoFilters = (e) => {
         let newVal
         const target = e.target
@@ -87,7 +37,6 @@ const TodoContextProvider = ({ children }) => {
         if (type === 'checkbox') {
             const isChecked = target.checked
             if (Array.isArray(filters[name])) {
-                console.log(1)
                 const set = new Set([...filters[name]])
                 isChecked ? set.add(value) : set.delete(value)
                 newVal = Array.from(set)
@@ -122,17 +71,8 @@ const TodoContextProvider = ({ children }) => {
         }
     }
 
-    const markAllCompleted = () => {
-        setTodos(
-            todos.map((todo) => {
-                return { ...todo, isCompleted: true }
-            })
-        )
-    }
-    const clearCompleted = () => {
-        setTodos(todos.filter((todo) => !todo.isCompleted))
-    }
-const props = { filters , todos , colors , tasksLeft , getTodo , addTodo , deleteToDo , setColor , setCompletedStatus , setActiveStatus  ,setTodoFilters , checkColor , checkStatus , markAllCompleted , clearCompleted}
+  
+const props = {  todos , todosActionTypes , todosDispatch , tasksLeft , filters  , setTodoFilters , checkColor , colors  , checkStatus }
     return <todoContext.Provider value={props}>{children}</todoContext.Provider>
 }
 //consumer
