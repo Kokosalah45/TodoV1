@@ -21,4 +21,4 @@ const clearCompleted = payload =>{
     return {type : CLEAR_COMPLETED  , payload}
 }
 
-export {addTodo , deleteTodo , setColor , setCompletedStatus , setActiveStatus , markAllCompleted , clearCompleted}
+export {addTodo , deleteTodo , setColor , setActiveStatus ,    setCompletedStatus  , markAllCompleted , clearCompleted}

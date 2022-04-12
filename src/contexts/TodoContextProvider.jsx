@@ -1,13 +1,10 @@
-import React, { useContext, createContext , useMemo , useState , useReducer , useEffect } from 'react'
-import shortid from 'shortid'
-import todosReducer from '../features/reducers/todos'
-import * as todosActionTypes from '../features/constants/todo'
+import React, { useContext, createContext , useMemo , useState} from 'react'
+
 
 const todoContext = createContext(null)
 // compound component pattern is used to eliminate unnecessary rerenders
 // i can use React.memo() to do the same functionality
 const TodoContextProvider = ({ children }) => {
-    const [todos , todosDispatch] = useReducer(todosReducer , []);
     const [colors, setColors] = useState([
         'red',
         'orange',
@@ -21,12 +18,7 @@ const TodoContextProvider = ({ children }) => {
     })
    
 
-    const calculateTasksLeft = (todos) => {
-        return todos.filter((todo) => !todo.isCompleted).length
-    }
-    const tasksLeft = useMemo(() => calculateTasksLeft(todos), [todos])
-    
-
+   
 
     const setTodoFilters = (e) => {
         let newVal
@@ -72,7 +64,7 @@ const TodoContextProvider = ({ children }) => {
     }
 
   
-const props = {  todos , todosActionTypes , todosDispatch , tasksLeft , filters  , setTodoFilters , checkColor , colors  , checkStatus }
+const props = {filters  , setTodoFilters , checkColor , colors  , checkStatus }
     return <todoContext.Provider value={props}>{children}</todoContext.Provider>
 }
 //consumer

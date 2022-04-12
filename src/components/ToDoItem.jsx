@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useTodo } from "../contexts/TodoContextProvider";
 import { deleteTodo , setColor , setCompletedStatus , setActiveStatus} from '../features/actions/todo'
+import {useDispatch } from "react-redux";
 import classNames from "classnames";
 const ToDoItem = ({todoData}) => {
-  const {colors , todosDispatch } = useTodo()
+  const {colors} = useTodo()
+  const todosDispatch = useDispatch()
   const { isActive, isCompleted, id, task, color: clr } = todoData;
   const [isHovered, setIsHovered] = useState(false);
 

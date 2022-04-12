@@ -1,4 +1,5 @@
 import React from "react";
+
 import { useTodo } from "../contexts/TodoContextProvider";
 const ColorFilter = () => {
   const { colors, setTodoFilters } = useTodo()
@@ -6,7 +7,7 @@ const ColorFilter = () => {
     <div className="color-filter">
       <h4 className="footer-header">Filter By Color : </h4>
       {colors.map( clr => (
-        <div className="checkbox-group">
+        <div key={clr} className="checkbox-group">
           <label htmlFor={clr}>{clr}</label>
           <input
             onChange={setTodoFilters}

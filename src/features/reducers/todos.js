@@ -12,10 +12,11 @@ const getTodo = (currentTodos,id) => {
        
     
 }
-const todosReducer = (state, action) =>{
+const todosReducer = (state = [], action) =>{
+
   const currentTodos = state;
   const actionType = action.type;
-  const {event , todoId , data } = action.payload;
+  const {event , todoId , data } = action.payload || {};
   const {todo,index} = getTodo(currentTodos , todoId)
   const todosCopy = [...currentTodos];
   const todoCopy = {...todo};
@@ -46,6 +47,9 @@ const todosReducer = (state, action) =>{
             todosCopy.splice(index, 1, Object.assign(todoCopy , {isCompleted : !todo.isCompleted}))
             return todosCopy;
         case SET_ACTIVE_STATUS :
+             if(event.target.nodeName === "SELECT"){
+                 return currentTodos
+             }
              todosCopy.splice(index, 1, Object.assign(todoCopy , {isActive : !todo.isActive}))
              return todosCopy;
         

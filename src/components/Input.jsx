@@ -1,8 +1,9 @@
 import React, { useState } from "react";
  import { useTodo } from "../contexts/TodoContextProvider";
 import {addTodo} from '../features/actions/todo'
+import { useDispatch } from "react-redux";
 const Input = () => {
-   const {todosDispatch} = useTodo()
+  const todosDispatch = useDispatch();
   const [formData, setFormData] = useState({
     todoInput: ""
   });
