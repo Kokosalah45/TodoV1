@@ -1,6 +1,8 @@
 import React from "react";
 import { useTodo } from "../contexts/TodoContextProvider";
+
 const StatusFilter = () => {
+
   const { setTodoFilters, filters : {status} } = useTodo()
   return (
     <div className="status-filter">

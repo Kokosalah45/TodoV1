@@ -1,8 +1,11 @@
 import React , {useMemo} from "react";
 import { useSelector } from "react-redux";
+
+
 const TasksCounter = () => {
-  const todos = useSelector(state => state.todos)
-  
+ const todos  = useSelector(state => state.todos)
+
+
   const calculateTasksLeft = (todos) => {
     return todos.filter((todo) => !todo.isCompleted).length
 }
